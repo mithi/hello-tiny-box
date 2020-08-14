@@ -36,6 +36,7 @@ const cleanValue = (newValue, ref, { minVal, maxVal, stepVal }) => {
 
 const InputField = ({ id, label, value, setField, rangeParams }) => {
     const { minVal, maxVal, stepVal } = rangeParams
+
     const [message, setMessage] = useState("")
     const ref = useRef(null)
 
@@ -59,9 +60,8 @@ const InputField = ({ id, label, value, setField, rangeParams }) => {
                 label={label}
                 value={value}
                 inputRef={ref}
-                InputProps={{
-                    type: "number",
-                    input: "numeric",
+                type="number"
+                inputProps={{
                     min: minVal,
                     max: maxVal,
                     step: stepVal,
