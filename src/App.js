@@ -8,7 +8,7 @@ import {
     ToggleRadioCard,
 } from "./components/layouts"
 import CAM from "./templates/cameraViewParams"
-import CUBE from "./templates/cubeStateParams"
+import BOX from "./templates/boxModelParams"
 
 // A helper to build the a set of required props... props that would be
 // be passed to components like SLIDER or INPUT TEXT FIELD
@@ -55,20 +55,20 @@ const CameraControlView = ({ camProps }) => (
     </ControlCard>
 )
 
-const CubeStateControlView = ({ cubeProps }) => (
+const BoxModelControlView = ({ boxProps }) => (
     <ControlCard title="Cube View Control">
-        <SliderInputField {...cubeProps.rx} />
-        <SliderInputField {...cubeProps.ry} />
-        <SliderInputField {...cubeProps.rz} />
+        <SliderInputField {...boxProps.rx} />
+        <SliderInputField {...boxProps.ry} />
+        <SliderInputField {...boxProps.rz} />
         <InputGroup3>
-            <NumericInputField {...cubeProps.tx} />
-            <NumericInputField {...cubeProps.ty} />
-            <NumericInputField {...cubeProps.tz} />
+            <NumericInputField {...boxProps.tx} />
+            <NumericInputField {...boxProps.ty} />
+            <NumericInputField {...boxProps.tz} />
         </InputGroup3>
         <InputGroup3>
-            <NumericInputField {...cubeProps.sx} />
-            <NumericInputField {...cubeProps.sy} />
-            <NumericInputField {...cubeProps.sz} />
+            <NumericInputField {...boxProps.sx} />
+            <NumericInputField {...boxProps.sy} />
+            <NumericInputField {...boxProps.sz} />
         </InputGroup3>
         {/*COLOR STATE IS NOT YET IMPLEMENTED FOR NOW */}
     </ControlCard>
@@ -78,24 +78,26 @@ const Plot = ({ children }) => <div>{children}</div>
 
 const App = () => {
     const [cameraView, setCameraView] = useState(CAM.INIT_STATE)
-    const [cubeState, setCubeState] = useState(CUBE.INIT_STATE)
+    const [boxModelState, setBoxModelState] = useState(BOX.INIT_STATE)
     const [isCameraView, setControlUi] = React.useState("true")
 
     const setCameraViewField = (id, newValue) => {
         setCameraView({ ...cameraView, [CAM.ID_TO_KEY_MAP[id]]: newValue })
     }
-    const setCubeStateField = (id, newValue) => {
-        setCubeState({ ...cubeState, [CUBE.ID_TO_KEY_MAP[id]]: newValue })
+    const setBoxModelField = (id, newValue) => {
+        setBoxModelState({ ...boxModelState, [BOX.ID_TO_KEY_MAP[id]]: newValue })
     }
 
     const showCamera = isCameraView === "true"
     const camProps = consolidateProp(cameraView, CAM.STATE_PROPS, setCameraViewField)
-    const cubeProps = consolidateProp(cubeState, CUBE.STATE_PROPS, setCubeStateField)
+    const boxProps = consolidateProp(boxModelState, BOX.STATE_PROPS, setBoxModelField)
 
     return (
         <Layout>
             <Layout.Main>
-                <Plot children={JSON.stringify(cameraView) + JSON.stringify(cubeState)} />
+                <Plot
+                    children={JSON.stringify(cameraView) + JSON.stringify(boxModelState)}
+                />
             </Layout.Main>
 
             <Layout.Side>
@@ -109,7 +111,7 @@ const App = () => {
                     <CameraControlView camProps={camProps} />
                 </div>
                 <div hidden={!showCamera}>
-                    <CubeStateControlView cubeProps={cubeProps} />
+                    <BoxModelControlView boxProps={boxProps} />
                 </div>
             </Layout.Side>
         </Layout>
