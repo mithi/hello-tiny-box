@@ -75,21 +75,21 @@ const ToggleRadioCard = ({ radioValue, onChange, option1Label, option2Label }) =
 
 class Layout extends React.Component {
     static Side = ({ children }) => (
-        <Grid item sm={12} md={4}>
+        <Grid item xs={12} sm={12} md={4}>
             {children}
         </Grid>
     )
     static Main = ({ children }) => (
-        <Grid item sm={12} md={8}>
+        <Grid item xs={12} sm={12} md={8}>
             <Card
                 variant="outlined"
                 style={{
                     height: "95vh",
-                    width: "100",
+                    width: "95%",
                     margin: "20px",
                 }}
             >
-                {children}
+                <div style={{ width: "100%", height: "100vh" }}>{children}</div>
             </Card>
         </Grid>
     )
