@@ -77,26 +77,28 @@ const BoxModelControlView = ({ boxProps }) => (
 const Plot = ({ children }) => <div>{children}</div>
 
 const App = () => {
-    const [cameraView, setCameraView] = useState(CAM.INIT_STATE)
+    const [cameraViewState, setCameraViewState] = useState(CAM.INIT_STATE)
     const [boxModelState, setBoxModelState] = useState(BOX.INIT_STATE)
     const [isCameraView, setControlUi] = React.useState("true")
 
     const setCameraViewField = (id, newValue) => {
-        setCameraView({ ...cameraView, [CAM.ID_TO_KEY_MAP[id]]: newValue })
+        setCameraViewState({ ...cameraViewState, [CAM.ID_TO_KEY_MAP[id]]: newValue })
     }
     const setBoxModelField = (id, newValue) => {
         setBoxModelState({ ...boxModelState, [BOX.ID_TO_KEY_MAP[id]]: newValue })
     }
 
     const showCamera = isCameraView === "true"
-    const camProps = consolidateProp(cameraView, CAM.STATE_PROPS, setCameraViewField)
+    const camProps = consolidateProp(cameraViewState, CAM.STATE_PROPS, setCameraViewField)
     const boxProps = consolidateProp(boxModelState, BOX.STATE_PROPS, setBoxModelField)
 
     return (
         <Layout>
             <Layout.Main>
                 <Plot
-                    children={JSON.stringify(cameraView) + JSON.stringify(boxModelState)}
+                    children={
+                        JSON.stringify(cameraViewState) + JSON.stringify(boxModelState)
+                    }
                 />
             </Layout.Main>
 
