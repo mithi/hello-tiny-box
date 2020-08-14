@@ -10,7 +10,7 @@ import {
 import CAM from "./templates/cameraViewParams"
 import BOX from "./templates/boxModelParams"
 import { BareMinimum2d } from "bare-minimum-2d"
-import { newPlotParams } from "./demoProps"
+import { renderScene, drawPoints } from "./box"
 // A helper to build the a set of required props... props that would be
 // be passed to components like SLIDER or INPUT TEXT FIELD
 const consolidateProp = (currentState, stateProps, setFunction) => {
@@ -87,10 +87,11 @@ const App = () => {
         setBoxModelState({ ...boxModelState, [BOX.ID_TO_KEY_MAP[id]]: newValue })
     }
 
+    renderScene()
     const showCamera = isCameraView === "true"
     const camProps = consolidateProp(cameraViewState, CAM.STATE_PROPS, setCameraViewField)
     const boxProps = consolidateProp(boxModelState, BOX.STATE_PROPS, setBoxModelField)
-    const plotProps = newPlotParams(cameraViewState, boxModelState)
+    const plotProps = drawPoints(renderScene())
     return (
         <Layout>
             <Layout.Main>

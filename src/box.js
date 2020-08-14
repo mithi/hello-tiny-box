@@ -98,13 +98,13 @@ const sMatrix = s => [
 ]
 
 /*
-   E------F        y
+   E4------F5      y
    |`.    | `.     |
-   |  `A--+---B    *----- x
+   |  `A0-----B1   *----- x
    |   |  |   |     \
-   G---+--H   |      \
+   G6--|--H7  |      \
     `. |   `. |       z
-      `C------D
+      `C2-----D3
 */
 class NormalUnitCube {
     CENTER = new Vector(0, 0, 0, "cube-center") // cube-center
@@ -174,7 +174,7 @@ const renderCube = (cube, cubeWrtCameraMatrix, projectionConstant) => {
 // RENDER SCENE
 
 const renderScene = () => {
-    const PROJECTION_CONSTANT = 1 * 600
+    const PROJECTION_CONSTANT = 1 * 400
     const CAMERA_POSITION = new Vector(0, 0, 0)
     const CAMERA_ORIENTATION = new Vector(0, 0, 45)
     const worldWrtCameraMatrix = getWorldWrtCameraMatrix(
@@ -194,4 +194,80 @@ const renderScene = () => {
     return projectedPoints
 }
 
-export { Cube, renderScene }
+/*
+   E4------F5      y
+   |`.    | `.     |
+   |  `A0-----B1   *----- x
+   |   |  |   |     \
+   G6--|--H7  |      \
+    `. |   `. |       z
+      `C2-----D3
+*/
+const drawPoints = p => {
+    const container = {
+        color: "#333333",
+        opacity: 1.0,
+        xRange: 600,
+        yRange: 600,
+    }
+
+    const frontPlane = {
+        x: [p[0].x, p[1].x, p[3].x, p[2].x],
+        y: [p[0].y, p[1].y, p[3].y, p[2].y],
+        borderColor: "#00BCD4",
+        borderOpacity: 1.0,
+        fillColor: "#00BCD4",
+        fillOpacity: 0.25,
+        borderSize: 10,
+        type: "polygon",
+        id: "front-plane",
+    }
+
+    const frontPoints = {
+        x: [p[0].x, p[1].x, p[3].x, p[2].x],
+        y: [p[0].y, p[1].y, p[3].y, p[2].y],
+        color: "#00BCD4",
+        opacity: 1.0,
+        size: 15,
+        type: "points",
+        id: "front-points",
+    }
+
+    const backPlane = {
+        x: [p[5].x, p[7].x, p[6].x, p[4].x],
+        y: [p[5].y, p[7].y, p[6].y, p[4].y],
+        borderColor: "#F44336",
+        borderOpacity: 1.0,
+        fillColor: "#F44336",
+        fillOpacity: 0.25,
+        borderSize: 10,
+        type: "polygon",
+        id: "back-plane",
+    }
+
+    const connectingLines = {
+        x0: [p[0].x, p[1].x, p[2].x, p[3].x],
+        y0: [p[0].y, p[1].y, p[2].y, p[3].y],
+        x1: [p[4].x, p[5].x, p[6].x, p[7].x],
+        y1: [p[4].y, p[5].y, p[6].y, p[7].y],
+        color: "#CDDC39",
+        opacity: 1.0,
+        size: 10,
+        type: "lines",
+        id: "frontplane",
+    }
+
+    const backPoints = {
+        x: [p[5].x, p[7].x, p[6].x, p[4].x],
+        y: [p[5].y, p[7].y, p[6].y, p[4].y],
+        color: "#F44336",
+        opacity: 1.0,
+        size: 15,
+        type: "points",
+        id: "back-points",
+    }
+    const data = [frontPlane, connectingLines, backPlane, frontPoints, backPoints]
+    return { data, container }
+}
+
+export { Cube, renderScene, drawPoints }
