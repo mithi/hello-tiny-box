@@ -9,7 +9,8 @@ import {
 } from "./components/layouts"
 import CAM from "./templates/cameraViewParams"
 import BOX from "./templates/boxModelParams"
-
+import { BareMinimum2d } from "bare-minimum-2d"
+import { newPlotParams } from "./demoProps"
 // A helper to build the a set of required props... props that would be
 // be passed to components like SLIDER or INPUT TEXT FIELD
 const consolidateProp = (currentState, stateProps, setFunction) => {
@@ -74,8 +75,6 @@ const BoxModelControlView = ({ boxProps }) => (
     </ControlCard>
 )
 
-const Plot = ({ children }) => <div>{children}</div>
-
 const App = () => {
     const [cameraViewState, setCameraViewState] = useState(CAM.INIT_STATE)
     const [boxModelState, setBoxModelState] = useState(BOX.INIT_STATE)
@@ -91,15 +90,11 @@ const App = () => {
     const showCamera = isCameraView === "true"
     const camProps = consolidateProp(cameraViewState, CAM.STATE_PROPS, setCameraViewField)
     const boxProps = consolidateProp(boxModelState, BOX.STATE_PROPS, setBoxModelField)
-
+    const plotProps = newPlotParams(cameraViewState, boxModelState)
     return (
         <Layout>
             <Layout.Main>
-                <Plot
-                    children={
-                        JSON.stringify(cameraViewState) + JSON.stringify(boxModelState)
-                    }
-                />
+                <BareMinimum2d {...plotProps} />
             </Layout.Main>
 
             <Layout.Side>
