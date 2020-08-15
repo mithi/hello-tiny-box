@@ -47,7 +47,7 @@ const STATE_PROPS = {
         rangeParams: {
             minVal: -100,
             maxVal: 100,
-            stepVal: 1,
+            stepVal: 0.1,
         },
         label: "t.X",
         id: "cube-state-trans-x",
@@ -56,7 +56,7 @@ const STATE_PROPS = {
         rangeParams: {
             minVal: -100,
             maxVal: 100,
-            stepVal: 1,
+            stepVal: 0.1,
         },
         label: "t.Y",
         id: "cube-state-trans-y",
@@ -65,7 +65,7 @@ const STATE_PROPS = {
         rangeParams: {
             minVal: -100,
             maxVal: 100,
-            stepVal: 1,
+            stepVal: 0.1,
         },
         label: "t.Z",
         id: "cube-state-trans-z",

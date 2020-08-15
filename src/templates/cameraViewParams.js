@@ -41,7 +41,7 @@ const STATE_PROPS = {
         rangeParams: {
             minVal: -100,
             maxVal: 100,
-            stepVal: 5,
+            stepVal: 0.1,
         },
         label: "t.X",
         id: "camera-view-trans-x",
@@ -50,7 +50,7 @@ const STATE_PROPS = {
         rangeParams: {
             minVal: -100,
             maxVal: 100,
-            stepVal: 5,
+            stepVal: 0.1,
         },
         label: "t.Y",
         id: "camera-view-trans-y",
@@ -59,16 +59,16 @@ const STATE_PROPS = {
         rangeParams: {
             minVal: -100,
             maxVal: 100,
-            stepVal: 5,
+            stepVal: 0.1,
         },
         label: "t.Z",
         id: "camera-view-trans-z",
     },
     zoom: {
         rangeParams: {
-            minVal: 1,
+            minVal: 0,
             maxVal: 10,
-            stepVal: 0.5,
+            stepVal: 0.1,
         },
         label: "zoom",
         id: "camera-view-zoom",
