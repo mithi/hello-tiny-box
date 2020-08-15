@@ -175,7 +175,7 @@ const renderCube = (cube, cubeWrtCameraMatrix, projectionConstant) => {
 
 const renderScene = (box, cam) => {
     const Z_TRANSLATE_OFFSET = 5
-    const PROJECTION_CONSTANT = 200 * cam.zoom
+    const PROJECTION_CONSTANT = 300 * cam.zoom
     const CAMERA_POSITION = new Vector(cam.tx, cam.ty, cam.tz + Z_TRANSLATE_OFFSET)
     const CAMERA_ORIENTATION = new Vector(cam.rx, cam.ry, cam.rz)
     const worldWrtCameraMatrix = getWorldWrtCameraMatrix(
@@ -217,8 +217,8 @@ const drawBox = p => {
         y: [p[0].y, p[1].y, p[3].y, p[2].y],
         borderColor: "#00BCD4",
         borderOpacity: 1.0,
-        fillColor: "#00BCD4",
-        fillOpacity: 0.25,
+        fillColor: "#E91E63",
+        fillOpacity: 0.1,
         borderSize: 10,
         type: "polygon",
         id: "front-plane",
@@ -237,10 +237,10 @@ const drawBox = p => {
     const backPlane = {
         x: [p[5].x, p[7].x, p[6].x, p[4].x],
         y: [p[5].y, p[7].y, p[6].y, p[4].y],
-        borderColor: "#F44336",
+        borderColor: "#00BCD4",
         borderOpacity: 1.0,
-        fillColor: "#F44336",
-        fillOpacity: 0.25,
+        fillColor: "#8BC34A",
+        fillOpacity: 0.1,
         borderSize: 10,
         type: "polygon",
         id: "back-plane",
@@ -251,7 +251,7 @@ const drawBox = p => {
         y0: [p[0].y, p[1].y, p[2].y, p[3].y],
         x1: [p[4].x, p[5].x, p[6].x, p[7].x],
         y1: [p[4].y, p[5].y, p[6].y, p[7].y],
-        color: "#CDDC39",
+        color: "#00BCD4",
         opacity: 1.0,
         size: 10,
         type: "lines",
@@ -261,7 +261,7 @@ const drawBox = p => {
     const backPoints = {
         x: [p[5].x, p[7].x, p[6].x, p[4].x],
         y: [p[5].y, p[7].y, p[6].y, p[4].y],
-        color: "#F44336",
+        color: "#00BCD4",
         opacity: 1.0,
         size: 15,
         type: "points",
