@@ -1,11 +1,13 @@
 # Hello Tiny Box
-Manipulate a three dimensional box.
+Manipulate a three dimensional box. Algorithm code: [Python script](./prototype-script.py)
 
 
 ![](https://user-images.githubusercontent.com/1670421/90311349-9fc0f700-df2c-11ea-812e-57a395263506.png)
 
 # High Level Pseudocode
 This pseudocode is taken from [Gabriel Gambetta's Computer Graphics from Scratch online book (Scene Setup)](https://www.gabrielgambetta.com/computer-graphics-from-scratch/scene-setup.html)
+
+What happens to a vertex V in model space until it’s projected into the canvas point (cx,cy)
 
 We first apply the model transform, to go from model space to world space:
 
@@ -35,7 +37,7 @@ cx = vx * cw / vw
 cy = vy * ch / vh
 ```
 
-This a pseudocode showing how we render the scene 
+The pseudocode below shows how we render a scene 
 
 ```
 RenderModel(model, transform) {
@@ -60,15 +62,15 @@ RenderScene() {
 
 # References
 
-[Scratch a Pixel 2.0: Finding the 2D pixel coordinates of a 3D Point Explained from Beginning to End](https://www.scratchapixel.com/lessons/3d-basic-rendering/computing-pixel-coordinates-of-3d-point/mathematics-computing-2d-coordinates-of-3d-points)
+- [x] [Scratch a Pixel 2.0: Finding the 2D pixel coordinates of a 3D Point Explained from Beginning to End](https://www.scratchapixel.com/lessons/3d-basic-rendering/computing-pixel-coordinates-of-3d-point/mathematics-computing-2d-coordinates-of-3d-points)
 
-[Gabriel Gambeta: Computer Graphics from scratch (Perspective Projection)](https://www.gabrielgambetta.com/computer-graphics-from-scratch/perspective-projection.html)
+- [x] [Gabriel Gambeta: Computer Graphics from scratch (Perspective Projection)](https://www.gabrielgambetta.com/computer-graphics-from-scratch/perspective-projection.html)
 
-[David J. Eck: Introduction to Computer Graphics (Projection and Viewing), Hobart and William Smith Colleges](http://math.hws.edu/graphicsbook/c3/s3.html)
+- [x] [David J. Eck: Introduction to Computer Graphics (Projection and Viewing), Hobart and William Smith Colleges](http://math.hws.edu/graphicsbook/c3/s3.html)
 
-[Jeremiah: 3D Game Engine Programming (Understanding the View Matrix)](https://www.3dgep.com/understanding-the-view-matrix/)
+- [x] [Jeremiah: 3D Game Engine Programming (Understanding the View Matrix)](https://www.3dgep.com/understanding-the-view-matrix/)
 
-[Etay Meiri: OLDEV Model OpenGL Tutorial (Camera Space)](http://ogldev.org/www/tutorial13/tutorial13.html)
+- [x] [Etay Meiri: OLDEV Model OpenGL Tutorial (Camera Space)](http://ogldev.org/www/tutorial13/tutorial13.html)
 
-[Plolty: 3D Camera Controls in Python](https://plotly.com/python/3d-camera-controls/)
+- [x] [Plotly: 3D Camera Controls in Python](https://plotly.com/python/3d-camera-controls/)
 
