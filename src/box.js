@@ -204,7 +204,7 @@ const renderScene = (box, cam) => {
     `. |   `. |       z
       `C2-----D3
 */
-const drawPoints = p => {
+const drawBox = p => {
     const container = {
         color: "#333333",
         opacity: 1.0,
@@ -271,4 +271,4 @@ const drawPoints = p => {
     return { data, container }
 }
 
-export { Cube, renderScene, drawPoints }
+export { Cube, renderScene, drawBox }
