@@ -109,14 +109,14 @@ const sMatrix = s => [
 class NormalUnitCube {
     CENTER = new Vector(0, 0, 0, "cube-center") // cube-center
     POINTS = [
-        new Vector(-1, +1, +1, "front-top-left"), //"A"),
-        new Vector(+1, +1, +1, "front-top-right"), //"B"),
-        new Vector(-1, -1, +1, "front-bottom-left"), //"C"),
-        new Vector(+1, -1, +1, "front-bottom-right"), //"D"),
-        new Vector(-1, +1, -1, "back-top-left"), //"E"),
-        new Vector(+1, +1, -1, "back-top-right"), //"F"),
-        new Vector(-1, -1, -1, "back-bottom-left"), //"G"),
-        new Vector(+1, -1, -1, "back-bottom-right"), //"H"),
+        new Vector(-1, +1, +1, "front-top-left"), // A0
+        new Vector(+1, +1, +1, "front-top-right"), // B1
+        new Vector(-1, -1, +1, "front-bottom-left"), // C2
+        new Vector(+1, -1, +1, "front-bottom-right"), // D3
+        new Vector(-1, +1, -1, "back-top-left"), // E4
+        new Vector(+1, +1, -1, "back-top-right"), // F5
+        new Vector(-1, -1, -1, "back-bottom-left"), // G6
+        new Vector(+1, -1, -1, "back-bottom-right"), // H7
     ]
 }
 
@@ -173,20 +173,21 @@ const renderCube = (cube, cubeWrtCameraMatrix, projectionConstant) => {
 
 // RENDER SCENE
 
-const renderScene = () => {
-    const PROJECTION_CONSTANT = 1 * 400
-    const CAMERA_POSITION = new Vector(0, 0, 0)
-    const CAMERA_ORIENTATION = new Vector(0, 0, 45)
+const renderScene = (box, cam) => {
+    const Z_TRANSLATE_OFFSET = 5
+    const PROJECTION_CONSTANT = 200 * cam.zoom
+    const CAMERA_POSITION = new Vector(cam.tx, cam.ty, cam.tz + Z_TRANSLATE_OFFSET)
+    const CAMERA_ORIENTATION = new Vector(cam.rx, cam.ry, cam.rz)
     const worldWrtCameraMatrix = getWorldWrtCameraMatrix(
         CAMERA_POSITION,
         CAMERA_ORIENTATION
     )
     // euler orientation rotation
-    const r = new Vector(-30, 0, 0)
+    const r = new Vector(box.rx, box.ry, box.rz)
     // translate vector
-    const t = new Vector(0, 0, 5)
+    const t = new Vector(box.tx, box.ty, box.tz)
     // scale magnitude
-    const s = new Vector(1.25, 1.25, 1.25)
+    const s = new Vector(box.sx, box.sy, box.sz)
 
     const cube = new Cube(r, s, t)
     const cubeWrtCameraMatrix = multiply4x4(worldWrtCameraMatrix, cube.wrtWorldMatrix)

@@ -87,11 +87,12 @@ const App = () => {
         setBoxModelState({ ...boxModelState, [BOX.ID_TO_KEY_MAP[id]]: newValue })
     }
 
-    renderScene()
     const showCamera = isCameraView === "true"
     const camProps = consolidateProp(cameraViewState, CAM.STATE_PROPS, setCameraViewField)
     const boxProps = consolidateProp(boxModelState, BOX.STATE_PROPS, setBoxModelField)
-    const plotProps = drawPoints(renderScene())
+    const projectionPoints = renderScene(boxModelState, cameraViewState)
+    const plotProps = drawPoints(projectionPoints)
+
     return (
         <Layout>
             <Layout.Main>
