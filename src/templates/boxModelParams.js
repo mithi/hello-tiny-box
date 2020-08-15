@@ -15,8 +15,8 @@ const INIT_STATE = {
 const STATE_PROPS = {
     rx: {
         rangeParams: {
-            minVal: -90,
-            maxVal: 90,
+            minVal: -180,
+            maxVal: 180,
             stepVal: 0.5,
         },
         label: "rotX",
@@ -24,8 +24,8 @@ const STATE_PROPS = {
     },
     ry: {
         rangeParams: {
-            minVal: -90,
-            maxVal: 90,
+            minVal: -180,
+            maxVal: 180,
             stepVal: 0.5,
         },
         label: "rotY",
@@ -33,8 +33,8 @@ const STATE_PROPS = {
     },
     rz: {
         rangeParams: {
-            minVal: -90,
-            maxVal: 90,
+            minVal: -180,
+            maxVal: 180,
             stepVal: 0.5,
         },
         label: "rotZ",
@@ -45,27 +45,27 @@ const STATE_PROPS = {
 
     tx: {
         rangeParams: {
-            minVal: -90,
-            maxVal: 90,
-            stepVal: 0.5,
+            minVal: -100,
+            maxVal: 100,
+            stepVal: 0.1,
         },
         label: "t.X",
         id: "cube-state-trans-x",
     },
     ty: {
         rangeParams: {
-            minVal: -90,
-            maxVal: 90,
-            stepVal: 0.5,
+            minVal: -100,
+            maxVal: 100,
+            stepVal: 0.1,
         },
         label: "t.Y",
         id: "cube-state-trans-y",
     },
     tz: {
         rangeParams: {
-            minVal: -90,
-            maxVal: 90,
-            stepVal: 0.5,
+            minVal: -100,
+            maxVal: 100,
+            stepVal: 0.1,
         },
         label: "t.Z",
         id: "cube-state-trans-z",
@@ -75,9 +75,9 @@ const STATE_PROPS = {
 
     sx: {
         rangeParams: {
-            minVal: -90,
-            maxVal: 90,
-            stepVal: 0.5,
+            minVal: 0,
+            maxVal: 10,
+            stepVal: 0.1,
         },
         label: "s.X",
         id: "cube-state-scale-x",
@@ -85,18 +85,18 @@ const STATE_PROPS = {
 
     sy: {
         rangeParams: {
-            minVal: -90,
-            maxVal: 90,
-            stepVal: 0.5,
+            minVal: 0,
+            maxVal: 10,
+            stepVal: 0.1,
         },
         label: "s.Y",
         id: "cube-state-scale-y",
     },
     sz: {
         rangeParams: {
-            minVal: -90,
-            maxVal: 90,
-            stepVal: 0.5,
+            minVal: 0,
+            maxVal: 10,
+            stepVal: 0.1,
         },
         label: "s.Z",
         id: "cube-state-scale-z",

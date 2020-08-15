@@ -109,14 +109,14 @@ const sMatrix = s => [
 class NormalUnitCube {
     CENTER = new Vector(0, 0, 0, "cube-center") // cube-center
     POINTS = [
-        new Vector(-1, +1, +1, "front-top-left"), //"A"),
-        new Vector(+1, +1, +1, "front-top-right"), //"B"),
-        new Vector(-1, -1, +1, "front-bottom-left"), //"C"),
-        new Vector(+1, -1, +1, "front-bottom-right"), //"D"),
-        new Vector(-1, +1, -1, "back-top-left"), //"E"),
-        new Vector(+1, +1, -1, "back-top-right"), //"F"),
-        new Vector(-1, -1, -1, "back-bottom-left"), //"G"),
-        new Vector(+1, -1, -1, "back-bottom-right"), //"H"),
+        new Vector(-1, +1, +1, "front-top-left"), // A0
+        new Vector(+1, +1, +1, "front-top-right"), // B1
+        new Vector(-1, -1, +1, "front-bottom-left"), // C2
+        new Vector(+1, -1, +1, "front-bottom-right"), // D3
+        new Vector(-1, +1, -1, "back-top-left"), // E4
+        new Vector(+1, +1, -1, "back-top-right"), // F5
+        new Vector(-1, -1, -1, "back-bottom-left"), // G6
+        new Vector(+1, -1, -1, "back-bottom-right"), // H7
     ]
 }
 
@@ -173,20 +173,21 @@ const renderCube = (cube, cubeWrtCameraMatrix, projectionConstant) => {
 
 // RENDER SCENE
 
-const renderScene = () => {
-    const PROJECTION_CONSTANT = 1 * 400
-    const CAMERA_POSITION = new Vector(0, 0, 0)
-    const CAMERA_ORIENTATION = new Vector(0, 0, 45)
+const renderScene = (box, cam) => {
+    const Z_TRANSLATE_OFFSET = 5
+    const PROJECTION_CONSTANT = 300 * cam.zoom
+    const CAMERA_POSITION = new Vector(cam.tx, cam.ty, cam.tz + Z_TRANSLATE_OFFSET)
+    const CAMERA_ORIENTATION = new Vector(cam.rx, cam.ry, cam.rz)
     const worldWrtCameraMatrix = getWorldWrtCameraMatrix(
         CAMERA_POSITION,
         CAMERA_ORIENTATION
     )
     // euler orientation rotation
-    const r = new Vector(-30, 0, 0)
+    const r = new Vector(box.rx, box.ry, box.rz)
     // translate vector
-    const t = new Vector(0, 0, 5)
+    const t = new Vector(box.tx, box.ty, box.tz)
     // scale magnitude
-    const s = new Vector(1.25, 1.25, 1.25)
+    const s = new Vector(box.sx, box.sy, box.sz)
 
     const cube = new Cube(r, s, t)
     const cubeWrtCameraMatrix = multiply4x4(worldWrtCameraMatrix, cube.wrtWorldMatrix)
@@ -203,7 +204,7 @@ const renderScene = () => {
     `. |   `. |       z
       `C2-----D3
 */
-const drawPoints = p => {
+const drawBox = p => {
     const container = {
         color: "#333333",
         opacity: 1.0,
@@ -216,8 +217,8 @@ const drawPoints = p => {
         y: [p[0].y, p[1].y, p[3].y, p[2].y],
         borderColor: "#00BCD4",
         borderOpacity: 1.0,
-        fillColor: "#00BCD4",
-        fillOpacity: 0.25,
+        fillColor: "#E91E63",
+        fillOpacity: 0.1,
         borderSize: 10,
         type: "polygon",
         id: "front-plane",
@@ -236,10 +237,10 @@ const drawPoints = p => {
     const backPlane = {
         x: [p[5].x, p[7].x, p[6].x, p[4].x],
         y: [p[5].y, p[7].y, p[6].y, p[4].y],
-        borderColor: "#F44336",
+        borderColor: "#00BCD4",
         borderOpacity: 1.0,
-        fillColor: "#F44336",
-        fillOpacity: 0.25,
+        fillColor: "#8BC34A",
+        fillOpacity: 0.1,
         borderSize: 10,
         type: "polygon",
         id: "back-plane",
@@ -250,7 +251,7 @@ const drawPoints = p => {
         y0: [p[0].y, p[1].y, p[2].y, p[3].y],
         x1: [p[4].x, p[5].x, p[6].x, p[7].x],
         y1: [p[4].y, p[5].y, p[6].y, p[7].y],
-        color: "#CDDC39",
+        color: "#00BCD4",
         opacity: 1.0,
         size: 10,
         type: "lines",
@@ -260,7 +261,7 @@ const drawPoints = p => {
     const backPoints = {
         x: [p[5].x, p[7].x, p[6].x, p[4].x],
         y: [p[5].y, p[7].y, p[6].y, p[4].y],
-        color: "#F44336",
+        color: "#00BCD4",
         opacity: 1.0,
         size: 15,
         type: "points",
@@ -270,4 +271,4 @@ const drawPoints = p => {
     return { data, container }
 }
 
-export { Cube, renderScene, drawPoints }
+export { Cube, renderScene, drawBox }

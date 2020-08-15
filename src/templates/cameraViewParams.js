@@ -5,7 +5,7 @@ const INIT_STATE = {
     tx: 0,
     ty: 0,
     tz: 0,
-    zoom: 10,
+    zoom: 1,
 }
 
 /** THE PROPS REQUIRED FOR EACH INPUT FIELD **/
@@ -39,36 +39,36 @@ const STATE_PROPS = {
     },
     tx: {
         rangeParams: {
-            minVal: -90,
-            maxVal: 90,
-            stepVal: 0.5,
+            minVal: -100,
+            maxVal: 100,
+            stepVal: 0.1,
         },
         label: "t.X",
         id: "camera-view-trans-x",
     },
     ty: {
         rangeParams: {
-            minVal: -90,
-            maxVal: 90,
-            stepVal: 0.5,
+            minVal: -100,
+            maxVal: 100,
+            stepVal: 0.1,
         },
         label: "t.Y",
         id: "camera-view-trans-y",
     },
     tz: {
         rangeParams: {
-            minVal: -90,
-            maxVal: 90,
-            stepVal: 0.5,
+            minVal: -100,
+            maxVal: 100,
+            stepVal: 0.1,
         },
         label: "t.Z",
         id: "camera-view-trans-z",
     },
     zoom: {
         rangeParams: {
-            minVal: -90,
-            maxVal: 90,
-            stepVal: 0.5,
+            minVal: 0,
+            maxVal: 10,
+            stepVal: 0.1,
         },
         label: "zoom",
         id: "camera-view-zoom",
