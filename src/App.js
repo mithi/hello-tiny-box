@@ -44,17 +44,13 @@ const consolidateProp = (currentState, stateProps, setFunction) => {
 
 const CameraControlView = ({ camProps }) => (
     <ControlCard title="Camera View Control">
-        <InputGroup3>
-            <SliderInputField {...camProps.rx} />
-            <SliderInputField {...camProps.ry} />
-            <SliderInputField {...camProps.rz} />
-        </InputGroup3>
+        <SliderInputField {...camProps.rx} />
+        <SliderInputField {...camProps.ry} />
+        <SliderInputField {...camProps.rz} />
 
-        <InputGroup3>
-            <NumericInputField {...camProps.tx} />
-            <NumericInputField {...camProps.ty} />
-            <NumericInputField {...camProps.tz} />
-        </InputGroup3>
+        <SliderInputField {...camProps.tx} />
+        <SliderInputField {...camProps.ty} />
+        <SliderInputField {...camProps.tz} />
         <NumericInputField {...camProps.zoom} />
     </ControlCard>
 )
