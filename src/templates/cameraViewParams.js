@@ -39,8 +39,8 @@ const STATE_PROPS = {
     },
     tx: {
         rangeParams: {
-            minVal: -100,
-            maxVal: 100,
+            minVal: -10,
+            maxVal: 10,
             stepVal: 0.1,
         },
         label: "t.X",
@@ -48,8 +48,8 @@ const STATE_PROPS = {
     },
     ty: {
         rangeParams: {
-            minVal: -100,
-            maxVal: 100,
+            minVal: -10,
+            maxVal: 10,
             stepVal: 0.1,
         },
         label: "t.Y",
@@ -57,8 +57,8 @@ const STATE_PROPS = {
     },
     tz: {
         rangeParams: {
-            minVal: -100,
-            maxVal: 100,
+            minVal: -10,
+            maxVal: 10,
             stepVal: 0.1,
         },
         label: "t.Z",
