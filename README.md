@@ -1,10 +1,12 @@
-# Hello Tiny Box
+# Hello Tiny Box 📦
 
 > Manipulate a three-dimensional box.
 
-- This project is inspired by [Gabriel Gambetta's Computer Graphics from Scratch online book](https://www.gabrielgambetta.com/computer-graphics-from-scratch/scene-setup.html)
+- This project is inspired by [Gabriel Gambetta's Computer Graphics from Scratch](https://www.gabrielgambetta.com/computer-graphics-from-scratch/scene-setup.html) online book
 
-- Algorithm code: [Python script](./prototype-script.py)
+- [`mithi.github.io/hello-tiny-box`](https://mithi.github.io/hello-tiny-box/)
+
+- See also: My [`quick and dirty Python script`](./prototype-script.py)
 
 ![User Interface Screenshot](https://user-images.githubusercontent.com/1670421/90424712-258d9f80-e0f1-11ea-972d-01f738102517.png)
 
