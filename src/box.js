@@ -221,7 +221,7 @@ const renderScene = (box, cam) => {
         PROJECTION_CONSTANT
     )
 
-    const isFrontFacing = arePlanesFrontFacing(transformedPoints, CAMERA_POSITION)
+    const isFrontFacing = whichPlanesFrontFacing(transformedPoints, CAMERA_POSITION)
     return drawBox(projectedPoints, isFrontFacing)
 }
 
@@ -258,11 +258,10 @@ const POINT_FACE_SET = [
     [4, 5, 1, 0],
     [2, 3, 7, 6],
 ]
-
-// t is the transformed points [{x, y, z}, {x, y, z}]
-// returns if the respective planes defined by the for points (POINT_FACE_SET)
+// returns an array of booleans with six elements
+// returns if the respective planes defined by the for each set of points (POINT_FACE_SET)
 //  are front facing or not
-const arePlanesFrontFacing = (transformedPoints, cameraOriginPoint) => {
+const whichPlanesFrontFacing = (transformedPoints, cameraOriginPoint) => {
     const t = transformedPoints
     return POINT_FACE_SET.map(pointIds => {
         const [a, b, c] = pointIds
