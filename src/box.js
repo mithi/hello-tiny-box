@@ -1,5 +1,27 @@
 const radians = thetaDegrees => (thetaDegrees * Math.PI) / 180
 const getSinCos = theta => [Math.sin(radians(theta)), Math.cos(radians(theta))]
+const dot = (a, b) => a.x * b.x + a.y * b.y + a.z * b.z
+
+const vectorLength = v => Math.sqrt(dot(v, v))
+const vectorFromTo = (a, b) => new Vector(b.x - a.x, b.y - a.y, b.z - a.z)
+const scaleVector = (v, d) => new Vector(d * v.x, d * v.y, d * v.z)
+
+const cross = (a, b) => {
+    const x = a.y * b.z - a.z * b.y
+    const y = a.z * b.x - a.x * b.z
+    const z = a.x * b.y - a.y * b.x
+    return new Vector(x, y, z)
+}
+
+const getNormalofThreePoints = (a, b, c) => {
+    const ba = vectorFromTo(b, a)
+    const bc = vectorFromTo(b, c)
+    const n = cross(ba, bc)
+    const len_n = vectorLength(n)
+    const unit_n = scaleVector(n, 1 / len_n)
+
+    return unit_n
+}
 
 const uniformMatrix4x4 = d => {
     const dRow = [d, d, d, d]
@@ -162,13 +184,15 @@ const getProjectedPoint = (point, projectionConstant) => {
 
 const renderCube = (cube, cubeWrtCameraMatrix, projectionConstant) => {
     let projectedPoints = []
+    let transformedPoints = []
     cube.points.forEach(point => {
         const transformedPoint = point.getTransformedPoint(cubeWrtCameraMatrix)
         const projectedPoint = getProjectedPoint(transformedPoint, projectionConstant)
+        transformedPoints.push(transformedPoint)
         projectedPoints.push(projectedPoint)
     })
 
-    return projectedPoints
+    return [transformedPoints, projectedPoints]
 }
 
 // RENDER SCENE
@@ -191,8 +215,14 @@ const renderScene = (box, cam) => {
 
     const cube = new Cube(r, s, t)
     const cubeWrtCameraMatrix = multiply4x4(worldWrtCameraMatrix, cube.wrtWorldMatrix)
-    const projectedPoints = renderCube(cube, cubeWrtCameraMatrix, PROJECTION_CONSTANT)
-    return projectedPoints
+    const [transformedPoints, projectedPoints] = renderCube(
+        cube,
+        cubeWrtCameraMatrix,
+        PROJECTION_CONSTANT
+    )
+
+    const isFrontFacing = whichPlanesFrontFacing(transformedPoints, CAMERA_POSITION)
+    return drawBox(projectedPoints, isFrontFacing)
 }
 
 /*
@@ -203,8 +233,49 @@ const renderScene = (box, cam) => {
    G6--|--H7  |      \
     `. |   `. |       z
       `C2-----D3
+
+face 1 - A0, B1, D3 | C2 (front)
+face 2 - B1, F5, H7 | D3 (front right)
+face 3 - F5, E4, G6 | H7 (front left)
+face 4 - E4, A0, C2 | G6 (back)
+face 5 - E4, F5, B1 | A0 (top)
+face 6 - C2 , D3, H7 | G6 |(bottom)
+
+IMPORTANT!
+The second point (ie B1 of set [A0, B1, D3, C2]
+is the center of A0, B1, D3 which is where we will
+compute the normal of the plane
 */
-const drawBox = p => {
+
+// use back face culling to figure out which
+// faces are in front
+
+const POINT_FACE_SET = [
+    [0, 1, 3, 2],
+    [1, 5, 7, 3],
+    [5, 4, 6, 7],
+    [4, 0, 2, 6],
+    [4, 5, 1, 0],
+    [2, 3, 7, 6],
+]
+// returns an array of booleans with six elements
+// returns if the respective planes defined by the for each set of points (POINT_FACE_SET)
+//  are front facing or not
+const whichPlanesFrontFacing = (transformedPoints, cameraOriginPoint) => {
+    const t = transformedPoints
+    return POINT_FACE_SET.map(pointIds => {
+        const [a, b, c] = pointIds
+
+        const n = getNormalofThreePoints(t[a], t[b], t[c])
+        const v = vectorFromTo(t[a], cameraOriginPoint)
+        const isFrontFacing = dot(n, v) > 0.0
+
+        return isFrontFacing
+    })
+}
+
+const drawBox = (projectedPoints, isFrontFacing) => {
+    const p = projectedPoints
     const container = {
         color: "#333333",
         opacity: 1.0,
@@ -212,62 +283,36 @@ const drawBox = p => {
         yRange: 600,
     }
 
-    const frontPlane = {
-        x: [p[0].x, p[1].x, p[3].x, p[2].x],
-        y: [p[0].y, p[1].y, p[3].y, p[2].y],
-        borderColor: "#00BCD4",
-        borderOpacity: 1.0,
-        fillColor: "#E91E63",
-        fillOpacity: 0.1,
-        borderSize: 10,
-        type: "polygon",
-        id: "front-plane",
-    }
+    const COLORS = ["#32ff7e", "#e056fd", "#E91E63", "#fa8231", "#fff200", "#ff3838"]
+    const OPACITY = [0.75, 0.75, 0.75, 0.75, 0.75, 0.75]
 
-    const frontPoints = {
-        x: [p[0].x, p[1].x, p[3].x, p[2].x],
-        y: [p[0].y, p[1].y, p[3].y, p[2].y],
-        color: "#00BCD4",
-        opacity: 1.0,
-        size: 15,
-        type: "points",
-        id: "front-points",
-    }
+    let data = []
+    isFrontFacing.forEach((isFront, index) => {
+        const [a, b, c, d] = POINT_FACE_SET[index]
+        const plane = {
+            x: [p[a].x, p[b].x, p[c].x, p[d].x],
+            y: [p[a].y, p[b].y, p[c].y, p[d].y],
+            borderColor: "#0652DD",
+            borderOpacity: 1.0,
+            fillColor: COLORS[index],
+            fillOpacity: OPACITY[index],
+            borderSize: 8,
+            type: "polygon",
+            id: `plane-${index}`,
+        }
+        const points = {
+            x: [p[a].x, p[b].x, p[c].x, p[d].x],
+            y: [p[a].y, p[b].y, p[c].y, p[d].y],
+            color: "#0652DD",
+            opacity: 1.0,
+            size: 15,
+            type: "points",
+            id: `points-${index}`,
+        }
 
-    const backPlane = {
-        x: [p[5].x, p[7].x, p[6].x, p[4].x],
-        y: [p[5].y, p[7].y, p[6].y, p[4].y],
-        borderColor: "#00BCD4",
-        borderOpacity: 1.0,
-        fillColor: "#8BC34A",
-        fillOpacity: 0.1,
-        borderSize: 10,
-        type: "polygon",
-        id: "back-plane",
-    }
+        data = isFront ? [...data, plane, points] : [plane, points, ...data]
+    })
 
-    const connectingLines = {
-        x0: [p[0].x, p[1].x, p[2].x, p[3].x],
-        y0: [p[0].y, p[1].y, p[2].y, p[3].y],
-        x1: [p[4].x, p[5].x, p[6].x, p[7].x],
-        y1: [p[4].y, p[5].y, p[6].y, p[7].y],
-        color: "#00BCD4",
-        opacity: 1.0,
-        size: 10,
-        type: "lines",
-        id: "frontplane",
-    }
-
-    const backPoints = {
-        x: [p[5].x, p[7].x, p[6].x, p[4].x],
-        y: [p[5].y, p[7].y, p[6].y, p[4].y],
-        color: "#00BCD4",
-        opacity: 1.0,
-        size: 15,
-        type: "points",
-        id: "back-points",
-    }
-    const data = [frontPlane, connectingLines, backPlane, frontPoints, backPoints]
     return { data, container }
 }
 

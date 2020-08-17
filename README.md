@@ -1,66 +1,54 @@
 # Hello Tiny Box
+
 Manipulate a three dimensional box. Algorithm code: [Python script](./prototype-script.py)
 
+![User Interface Screenshot](https://user-images.githubusercontent.com/1670421/90424712-258d9f80-e0f1-11ea-972d-01f738102517.png)
 
-![](https://user-images.githubusercontent.com/1670421/90311349-9fc0f700-df2c-11ea-812e-57a395263506.png)
+## High Level Pseudocode
 
-# High Level Pseudocode
-This pseudocode is taken from [Gabriel Gambetta's Computer Graphics from Scratch online book (Scene Setup)](https://www.gabrielgambetta.com/computer-graphics-from-scratch/scene-setup.html)
+The pseudocode is taken from [Gabriel Gambetta's Computer Graphics from Scratch online book (Scene Setup)](https://www.gabrielgambetta.com/computer-graphics-from-scratch/scene-setup.html)
 
-What happens to a vertex V in model space until it’s projected into the canvas point (cx,cy)
+We manipulate vertex V in model space until it’s projected into the canvas point (cx,cy)
 
-We first apply the model transform, to go from model space to world space:
+1. We first apply the model transform, to go from model space to world space (rotate, scale, translate)
+2. Then we apply the camera transform, to go from world space to camera space (rotate and translate)
+3. Next we apply the perspective equations and we finally map the viewport coordinates to canvas coordinates
 
-```
-V1 = V * instance.rotation
-V2 = V1 * instance.scale
-V3 = V2 + instance.translation
-```
+You can inspect the algorithm I first wrote in python here: Algorithm code: [Python script](./prototype-script.py)
 
-Then we apply the camera transform, to go from world space to camera space:
+```python
+# High level pseudo code only
+
+def get_projected_point(point):
+  return {
+    "x": point.x / point.z * projection_constant,
+    "y": point.y / point.z * projection_constant,
+    "z" projection_constant
+  }
+
+def render_model(model_instance, model_to_camera_matrix):
+    transformed_points = [] # x, y, z wrt camera (3d)
+    projected_points = [] # x, y wrt canvas of camera (2d)
+
+    for point in model_instance.points:
+        transformed_points.append(model_to_camera_matrix * point)
+        projected_points.append(get_projected_point(point))
+
+    # figure out which places are on the back or front
+    # modified_back_face_culling algorithm
+    information = which_planes_front_facing(transformed_points)
+    plot_points_in_image(projected_points, information)
 
 
-```
-V4 = V3 - camera.translation
-V5 = V4 * inverse(camera.rotation)
-```
 
-Next we apply the perspective equations:
-```
-vx = V5.x * d / V5.z
-vy = V5.y * d / V5.z
-```
-And we finally map the viewport coordinates to canvas coordinates:
-
-```
-cx = vx * cw / vw
-cy = vy * ch / vh
-```
-
-The pseudocode below shows how we render a scene 
-
-```
-RenderModel(model, transform) {
-    projected = []
-    for V in model.vertexes {
-        projected.append(ProjectVertex(transform * V))
-    }
-    for T in model.triangles {
-        RenderTriangle(T, projected)
-    }
-}
-
-RenderScene() {
-    MCamera = MakeCameraMatrix(camera.position, camera.orientation)
-
-    for I in scene.instances {
-        M = MCamera*I.transform
-        RenderModel(I.model, M)
-    }
-}
+def render_scene():
+    camera_to_world_matrix = build_camera_matrix(camera_position, camera_orientation)
+    for each model_instance in scene:
+        model_to_camera_matrix = world_to_camera_matrix * model_instance.model_to_world_matrix
+        render_model(model_instance, model_to_camera_matrix)
 ```
 
-# References
+## References
 
 - [x] [Scratch a Pixel 2.0: Finding the 2D pixel coordinates of a 3D Point Explained from Beginning to End](https://www.scratchapixel.com/lessons/3d-basic-rendering/computing-pixel-coordinates-of-3d-point/mathematics-computing-2d-coordinates-of-3d-points)
 
@@ -73,4 +61,3 @@ RenderScene() {
 - [x] [Etay Meiri: OLDEV Model OpenGL Tutorial (Camera Space)](http://ogldev.org/www/tutorial13/tutorial13.html)
 
 - [x] [Plotly: 3D Camera Controls in Python](https://plotly.com/python/3d-camera-controls/)
-

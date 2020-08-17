@@ -1,15 +1,13 @@
 """
 
 
- ____                                                   __       __      ____                     
-/\  _`\                                               /'__`\    /\ \    /\  _`\                   
-\ \ \/\ \  _ __    __     __  __  __         __      /\_\L\ \   \_\ \   \ \ \L\ \    ___   __  _  
- \ \ \ \ \/\`'__\/'__`\  /\ \/\ \/\ \      /'__`\    \/_/_\_<_  /'_` \   \ \  _ <'  / __`\/\ \/'\ 
-  \ \ \_\ \ \ \//\ \L\.\_\ \ \_/ \_/ \    /\ \L\.\_    /\ \L\ \/\ \L\ \   \ \ \L\ \/\ \L\ \/>  </ 
+ ____                                                   __       __      ____
+/\  _`\                                               /'__`\    /\ \    /\  _`\
+\ \ \/\ \  _ __    __     __  __  __         __      /\_\L\ \   \_\ \   \ \ \L\ \    ___   __  _
+ \ \ \ \ \/\`'__\/'__`\  /\ \/\ \/\ \      /'__`\    \/_/_\_<_  /'_` \   \ \  _ <'  / __`\/\ \/'\
+  \ \ \_\ \ \ \//\ \L\.\_\ \ \_/ \_/ \    /\ \L\.\_    /\ \L\ \/\ \L\ \   \ \ \L\ \/\ \L\ \/>  </
    \ \____/\ \_\\ \__/.\_\\ \___x___/'    \ \__/.\_\   \ \____/\ \___,_\   \ \____/\ \____//\_/\_\
     \/___/  \/_/ \/__/\/_/ \/__//__/       \/__/\/_/    \/___/  \/__,_ /    \/___/  \/___/ \//\/_/
-                                                                                                  
-                                                                                                  
 
    .+------+     +------+     +------+     +------+     +------+.
  .' |    .'|    /|     /|     |      |     |\     |\    |`.    | `.
@@ -42,8 +40,8 @@ def _return_sin_and_cos(theta):
 def rotx(theta):
     c, s = _return_sin_and_cos(theta)
     return np.array([
-      [1, 0, 0], 
-      [0, c, -s], 
+      [1, 0, 0],
+      [0, c, -s],
       [0, s, c]]
     )
 
@@ -80,7 +78,7 @@ class Vector:
     self.x, self.y, self.z = x, y, z
     self.name = name
     self.alias = alias
-  
+
   def get_transformed_point(self, transform_matrix):
     p = np.array([self.x, self.y, self.z, 1])
     p = np.matmul(transform_matrix, p)
@@ -88,7 +86,7 @@ class Vector:
 
   def __repr__(self):
     return f"Vector(x={self.x}, y={self.y}, z={self.z}, {self.name})"
-    
+
 def t_matrix(translation):
   return [[1, 0, 0, translation.x],
           [0, 1, 0, translation.y],
@@ -127,7 +125,7 @@ class NormalUnitCube:
 
     def __init__(self):
       pass
-      
+
 class Cube:
   UNIT_CUBE = NormalUnitCube()
   def __init__(
@@ -151,7 +149,7 @@ class Cube:
     ]
     self.wrt_world_matrix = np.matmul(t_matrix(t), np.matmul(s_matrix(s), r_matrix))
     self.points = Cube.UNIT_CUBE.POINTS
-    
+
 def get_world_wrt_camera_matrix(
     translate_vec=Vector(0, 0, 0),
     euler_vec=Vector(0, 0, 0)
@@ -230,7 +228,7 @@ def render_cube(cube, cube_wrt_camera_matrix, projection_constant):
     transformed_point = point.get_transformed_point(cube_wrt_camera_matrix)
     projected_point = get_projected_point(transformed_point, projection_constant)
     projected_points.append(projected_point)
-  
+
   print(projected_points)
   plot_2d_points(projected_points)
 

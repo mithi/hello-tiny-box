@@ -9,8 +9,9 @@ import {
 } from "./components/layouts"
 import CAM from "./templates/cameraViewParams"
 import BOX from "./templates/boxModelParams"
-import { BareMinimum2d } from "bare-minimum-2d"
-import { renderScene, drawBox } from "./box"
+import BareMinimum2d from "bare-minimum-2d"
+import { renderScene } from "./box"
+
 // A helper to build the a set of required props... props that would be
 // be passed to components like SLIDER or INPUT TEXT FIELD
 const consolidateProp = (currentState, stateProps, setFunction) => {
@@ -27,7 +28,6 @@ const consolidateProp = (currentState, stateProps, setFunction) => {
         ....
     }
      **/
-
     const consolidatedProps = Object.keys(stateProps).reduce(
         (props, key) => ({
             ...props,
@@ -47,11 +47,10 @@ const CameraControlView = ({ camProps }) => (
         <SliderInputField {...camProps.rx} />
         <SliderInputField {...camProps.ry} />
         <SliderInputField {...camProps.rz} />
-        <InputGroup3>
-            <NumericInputField {...camProps.tx} />
-            <NumericInputField {...camProps.ty} />
-            <NumericInputField {...camProps.tz} />
-        </InputGroup3>
+
+        <SliderInputField {...camProps.tx} />
+        <SliderInputField {...camProps.ty} />
+        <SliderInputField {...camProps.tz} />
         <NumericInputField {...camProps.zoom} />
     </ControlCard>
 )
@@ -90,8 +89,7 @@ const App = () => {
     const showCamera = isCameraView === "true"
     const camProps = consolidateProp(cameraViewState, CAM.STATE_PROPS, setCameraViewField)
     const boxProps = consolidateProp(boxModelState, BOX.STATE_PROPS, setBoxModelField)
-    const projectionPoints = renderScene(boxModelState, cameraViewState)
-    const plotProps = drawBox(projectionPoints)
+    const plotProps = renderScene(boxModelState, cameraViewState)
 
     return (
         <Layout>
