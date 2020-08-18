@@ -184,15 +184,15 @@ const getProjectedPoint = (point, projectionConstant) => {
 
 const renderCube = (cube, cubeWrtCameraMatrix, projectionConstant) => {
     let projectedPoints = []
-    let transformedPoints = []
+    let pointsWrtCamera = []
     cube.points.forEach(point => {
-        const transformedPoint = point.getTransformedPoint(cubeWrtCameraMatrix)
-        const projectedPoint = getProjectedPoint(transformedPoint, projectionConstant)
-        transformedPoints.push(transformedPoint)
+        const pointWrtCamera = point.getTransformedPoint(cubeWrtCameraMatrix)
+        const projectedPoint = getProjectedPoint(pointWrtCamera, projectionConstant)
+        pointsWrtCamera.push(pointWrtCamera)
         projectedPoints.push(projectedPoint)
     })
 
-    return [transformedPoints, projectedPoints]
+    return [pointsWrtCamera, projectedPoints]
 }
 
 // RENDER SCENE
@@ -215,13 +215,13 @@ const renderScene = (box, cam) => {
 
     const cube = new Cube(r, s, t)
     const cubeWrtCameraMatrix = multiply4x4(worldWrtCameraMatrix, cube.wrtWorldMatrix)
-    const [transformedPoints, projectedPoints] = renderCube(
+    const [pointsWrtCamera, projectedPoints] = renderCube(
         cube,
         cubeWrtCameraMatrix,
         PROJECTION_CONSTANT
     )
 
-    const isFrontFacing = whichPlanesFrontFacing(transformedPoints, CAMERA_POSITION)
+    const isFrontFacing = whichPlanesFrontFacing(pointsWrtCamera)
     return drawBox(projectedPoints, isFrontFacing)
 }
 
@@ -261,13 +261,15 @@ const POINT_FACE_SET = [
 // returns an array of booleans with six elements
 // returns if the respective planes defined by the for each set of points (POINT_FACE_SET)
 //  are front facing or not
-const whichPlanesFrontFacing = (transformedPoints, cameraOriginPoint) => {
-    const t = transformedPoints
+const whichPlanesFrontFacing = pointsWrtCamera => {
+    const p = pointsWrtCamera
     return POINT_FACE_SET.map(pointIds => {
         const [a, b, c] = pointIds
 
-        const n = getNormalofThreePoints(t[a], t[b], t[c])
-        const v = vectorFromTo(t[a], cameraOriginPoint)
+        const n = getNormalofThreePoints(p[a], p[b], p[c])
+        // v is vector from point p[b]
+        // to cameraOriginPoint Vector(0, 0, 0)
+        const v = new Vector(-p[b].x, -p[b].y, -p[b].z)
         const isFrontFacing = dot(n, v) > 0.0
 
         return isFrontFacing
