@@ -11,6 +11,8 @@ import CAM from "./templates/cameraViewParams"
 import BOX from "./templates/boxModelParams"
 import BareMinimum2d from "bare-minimum-2d"
 import { renderScene } from "./box"
+import { Button } from "@material-ui/core"
+import GitHubIcon from "@material-ui/icons/GitHub"
 
 // A helper to build the a set of required props... props that would be
 // be passed to components like SLIDER or INPUT TEXT FIELD
@@ -109,6 +111,17 @@ const App = () => {
                 </div>
                 <div hidden={!showCamera}>
                     <BoxModelControlView boxProps={boxProps} />
+                </div>
+                <div style={{ textAlign: "center" }}>
+                    <a href="https://github.com/mithi/hello-tiny-box/">
+                        <Button
+                            variant="outlined"
+                            style={{ margin: "20px 0px 10px 0px" }}
+                            startIcon={<GitHubIcon />}
+                        >
+                            Github Repository
+                        </Button>
+                    </a>
                 </div>
             </Layout.Side>
         </Layout>
