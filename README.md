@@ -10,6 +10,10 @@
 
 ![User Interface Screenshot](https://user-images.githubusercontent.com/1670421/90424712-258d9f80-e0f1-11ea-972d-01f738102517.png)
 
+## Contributing
+
+PRs welcome! Please read the [contributing guidelines](https://github.com/mithi/hexapod) and the [commit style guide](https://github.com/mithi/hexapod/wiki/A-Commit-Style-Guide)!
+
 ## References
 
 - [x] [Scratch a Pixel 2.0: Finding the 2D pixel coordinates of a 3D Point Explained from Beginning to End](https://www.scratchapixel.com/lessons/3d-basic-rendering/computing-pixel-coordinates-of-3d-point/mathematics-computing-2d-coordinates-of-3d-points)
